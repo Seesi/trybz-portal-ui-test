@@ -24,13 +24,16 @@ test.describe("Verify that an Estate manager", () => {
     await page.getByLabel("Category").click();
 
     await page.getByRole("option",{name: "General Visitor"}).click();
+    // await page.getByTestId("invite-source").click();
     await page.getByRole('combobox', { name: 'Select Invite Source ​' }).click();
     await page.getByRole("option",{name: "New"}).click();
     await page.locator('div').filter({ hasText: /^visitor information \*$/ }).getByRole('img').click();
-    await page.getByLabel('First Name').click();
-    await page.getByLabel('First Name').fill('Nana');
     
-    await page.getByLabel('Last Name').click();
+    await page.getByTestId("first-name").fill('Nana');
+    // await page.getByLabel('First Name').click();
+    // await page.getByLabel('First Name').fill('Nana');
+    
+    // await page.getByLabel('Last Name').click();
     await page.getByLabel('Last Name').fill('Addo');
     
     await page.locator('input[name="phoneNumber"]').click();
@@ -47,8 +50,9 @@ test.describe("Verify that an Estate manager", () => {
 
     await page.locator('div').filter({ hasText: /^Visitor Booking Validity\*$/ }).getByRole('img').click();
     await page.getByPlaceholder('Start Date').click();
-    await page.getByText('24').nth(1).click();
-    await page.getByText('25').first().click();
+    await page.getByText('27').nth(0).click();
+
+    await page.getByText('28').nth(0).click();
     await page.locator('div').filter({ hasText: /^Start Time$/ }).getByLabel('Choose time').click();
     await page.getByLabel('3 hours', { exact: true }).click();
     
@@ -61,7 +65,7 @@ test.describe("Verify that an Estate manager", () => {
     await page.getByRole('option',{name: 'Single entry'}).click();
     await page.getByRole('button', { name: 'Book Visitor' }).click();
     await page.waitForTimeout(15000);
-    await expect(page.getByRole('dialog')).toMatchAriaSnapshot(`
+    await expect(page.getByRole('dialog',)).toMatchAriaSnapshot(`
       - paragraph: Visitor successfully booked to Management
       - paragraph: If you ticked the box to send invite by email, an email has been automatically sent to the email address you indicated for the management. Click share invite details get invite link.
       - button "Done"
@@ -85,7 +89,8 @@ test.describe("Verify that an Estate manager", () => {
         - paragraph: /\\+\\d+/
         - paragraph: Visitor Groups
         `);
-      await page.getByRole('button').click();
+
+      await page.getByTestId('close-button').click();
 
   });
 
@@ -179,20 +184,18 @@ test.describe("Verify that an Estate manager", () => {
 
   test.afterEach(async ({page})=>{
     /* Delete Saved Visitor */
-    // await page.getByRole('tab', { name: /Saved Visitors*/ }).click();
-    // await page.locator('div > .dropdown > .i-false').first().click();
-    // await page.getByRole('button', { name: 'View Details' }).click();
-    // await page.getByText('Delete', { exact: true }).click();
-    // await page.getByRole('button', { name: 'Delete' }).click();
-    // await page.getByRole('button', { name: 'Done' }).click();
+    await page.getByRole('tab', { name: /Saved Visitors*/ }).click();
+    await page.locator('div > .dropdown > .i-false').first().click();
+    await page.getByRole('button', { name: 'View Details' }).click();
+    await page.getByText('Delete', { exact: true }).click();
+    await page.getByRole('button', { name: 'Delete' }).click();
+    await page.getByRole('button', { name: 'Done' }).click();
   
     /* Cancel Booking */
-    // await page.getByRole('tab', { name: 'My Visitors' }).click();
-    // await page.getByRole('tab', { name: 'Upcoming' }).click();
-    // await page.getByRole('row', { name: 'Nana Addo Liberation Rd,' }).getByLabel('Row Actions').click();
-    // await page.getByText('Cancel').click();
-    // await page.getByRole('button', { name: 'Yes' }).click();
+    await page.getByRole('tab', { name: 'My Visitors' }).click();
+    await page.getByRole('tab', { name: 'Upcoming' }).click();
+    await page.getByRole('row', { name: 'Nana Addo Liberation Rd,' }).getByLabel('Row Actions').click();
+    await page.getByText('Cancel').click();
+    await page.getByRole('button', { name: 'Yes' }).click();
   })
 });
-
-

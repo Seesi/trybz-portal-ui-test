@@ -31,6 +31,7 @@ export default defineConfig({
     launchOptions: { slowMo: 800 },
     // viewport: { width: 1920, height: 1080 },
     actionTimeout: 60000,
+    testIdAttribute: 'test-id'
   },
 
   timeout: 60_000,
